@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:p="http://www.springframework.org/schema/p"  
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/mvc 
+http://www.springframework.org/schema/mvc/spring-mvc.xsd
+http://www.springframework.org/schema/beans  
+http://www.springframework.org/schema/beans/spring-beans.xsd  
+http://www.springframework.org/schema/context  
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx.xsd"> 
+
+<mvc:annotation-driven />
+<context:component-scan base-package="com.ashish"></context:component-scan>
+<tx:annotation-driven transaction-manager="transactionManager"/>
+
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+<property name="prefix" value="/WEB-INF/jsp/"></property>
+<property name="suffix" value=".jsp"></property>
+</bean>
+
+<mvc:resources mapping="/resources/**" location="/resources/"
+    cache-period="31556926"/>
+    
+<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">  
+        <property name="driverClassName"  value="com.mysql.jdbc.Driver"></property>  
+        <property name="url" value="jdbc:mysql://localhost:3306/hrsystem"></property>  
+        <property name="username" value="root"></property>  
+        <property name="password" value=""></property>  
+</bean> 
+<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="com.ashish.dto"/>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				
+			</props>
+		</property>
+	</bean> 
+
+	<bean id="jobSeekerDao" class="com.ashish.daoImpl.JobSeekerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="employerDao" class="com.ashish.daoImpl.EmployerDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="jobSeekerService" class="com.ashish.serviceImpl.JobSeekerServiceImpl">
+		<property name="jobSeekerDao" ref="jobSeekerDao"></property>
+	</bean>
+	
+	<bean id="employerService" class="com.ashish.serviceImpl.EmployerServiceImpl">
+		<property name="employerDao" ref="employerDao"></property>
+	</bean>
+	
+	<bean id="adminDao" class="com.ashish.daoImpl.AdminDaoImpl">
+	<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="adminService" class="com.ashish.serviceImpl.AdminServiceImpl">
+		<property name="adminDao" ref="adminDao"></property>
+	</bean>
+	
+	<bean id='usersDao' class='com.ashish.daoImpl.UsersDaoImpl'>
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id='usersService' class='com.ashish.serviceImpl.UsersServiceImpl'>
+		<property name='usersDao' ref='usersDao'></property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+</beans>
