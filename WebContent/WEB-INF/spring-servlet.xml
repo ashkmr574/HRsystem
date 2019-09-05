@@ -23,7 +23,7 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 <property name="suffix" value=".jsp"></property>
 </bean>
 
-<mvc:resources mapping="/resources/**" location="/resources/"
+<mvc:resources mapping="/resources/**" location="/"
     cache-period="31556926"/>
     
 <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">  
