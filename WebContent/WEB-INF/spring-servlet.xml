@@ -45,38 +45,6 @@ http://www.springframework.org/schema/tx/spring-tx.xsd">
 			</props>
 		</property>
 	</bean> 
-
-	<bean id="jobSeekerDao" class="com.ashish.daoImpl.JobSeekerDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	
-	<bean id="employerDao" class="com.ashish.daoImpl.EmployerDaoImpl">
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	
-	<bean id="jobSeekerService" class="com.ashish.serviceImpl.JobSeekerServiceImpl">
-		<property name="jobSeekerDao" ref="jobSeekerDao"></property>
-	</bean>
-	
-	<bean id="employerService" class="com.ashish.serviceImpl.EmployerServiceImpl">
-		<property name="employerDao" ref="employerDao"></property>
-	</bean>
-	
-	<bean id="adminDao" class="com.ashish.daoImpl.AdminDaoImpl">
-	<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	
-	<bean id="adminService" class="com.ashish.serviceImpl.AdminServiceImpl">
-		<property name="adminDao" ref="adminDao"></property>
-	</bean>
-	
-	<bean id='usersDao' class='com.ashish.daoImpl.UsersDaoImpl'>
-		<property name="sessionFactory" ref="sessionFactory"></property>
-	</bean>
-	
-	<bean id='usersService' class='com.ashish.serviceImpl.UsersServiceImpl'>
-		<property name='usersDao' ref='usersDao'></property>
-	</bean>
 	
 	<bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
 		<property name="sessionFactory" ref="sessionFactory" />

@@ -26,11 +26,6 @@ public class EmployerServiceImpl implements EmployerService
 {
 	@Autowired
 	private EmployerDao employerDao;
-    
-	public void setEmployerDao(EmployerDao employerDao) 
-	{
-		this.employerDao = employerDao;
-	}
 	
 	@Override
 	public String getCompanyName(String username) 

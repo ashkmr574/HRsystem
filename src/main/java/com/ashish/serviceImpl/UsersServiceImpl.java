@@ -20,11 +20,6 @@ public class UsersServiceImpl implements UsersService
 	
 	@Autowired
 	private UsersDao usersDao;
-	
-	public void setUsersDao(UsersDao usersDao)
-	{
-		this.usersDao = usersDao;
-	}
 
 	@Override
 	public Boolean login(String username, String password,String usertype) 

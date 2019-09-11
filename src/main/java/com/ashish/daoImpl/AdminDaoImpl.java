@@ -21,19 +21,12 @@ public class AdminDaoImpl implements AdminDao
 {
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	
-	public void setSessionFactory(SessionFactory sessionFactory) 
-	{
-		this.sessionFactory = sessionFactory;
-	}
 	
 	@Override
 	public Admin login(String username) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Admin admin=(Admin)session.createQuery("from Admin where username=:username").setParameter("username",username).uniqueResult();
-		return admin;
+		return (Admin)session.createQuery("from Admin where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 	@Override
@@ -55,8 +48,7 @@ public class AdminDaoImpl implements AdminDao
 	public String get_Password(String username) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		String password=(String)session.createQuery("select password from Admin where username=:username").setParameter("username",username).uniqueResult();
-		return password;
+		return (String)session.createQuery("select password from Admin where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 	@Override

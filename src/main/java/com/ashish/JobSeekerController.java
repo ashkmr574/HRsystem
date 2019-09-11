@@ -39,12 +39,8 @@ import com.ashish.validator.MyCustomValidator;
 @Controller
 public class JobSeekerController
 {
-	private JobSeekerService jobSeekerService;
-	
 	@Autowired
-	public void setJobSeekerService(JobSeekerService jobSeekerService) {
-		this.jobSeekerService = jobSeekerService;
-	}
+	private JobSeekerService jobSeekerService;
 	
 	@InitBinder
 	 public final void initBinderUsuariosFormValidator(final WebDataBinder binder, final Locale locale) {

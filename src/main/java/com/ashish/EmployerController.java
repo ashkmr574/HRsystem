@@ -41,12 +41,8 @@ import com.ashish.validator.MyCustomValidator;
 @Controller
 public class EmployerController
 {
+	@Autowired
 	private EmployerService employerService;
-	
-	@Autowired(required=true)
-	public void setEmployerService(EmployerService employerService) {
-		this.employerService = employerService;
-	}
 	
 	@InitBinder
 	public final void initBinderUsuariosFormValidator(final WebDataBinder binder, final Locale locale) 

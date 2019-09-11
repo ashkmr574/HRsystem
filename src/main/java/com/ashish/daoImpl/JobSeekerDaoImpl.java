@@ -33,11 +33,6 @@ public class JobSeekerDaoImpl implements JobSeekerDao
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-
     @Override
 	public String getPassword(String Username)
 	{

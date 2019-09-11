@@ -30,11 +30,6 @@ public class JobSeekerServiceImpl implements JobSeekerService
 {
 	@Autowired
 	private JobSeekerDao jobSeekerDao;
-	
-	public void setJobSeekerDao(JobSeekerDao jobSeekerDao) 
-	{
-		this.jobSeekerDao = jobSeekerDao;
-	}
 
 	@Override
 	public String getApplicantName(String username) 

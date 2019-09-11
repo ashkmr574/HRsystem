@@ -23,10 +23,6 @@ public class CommonController
 {
 	@Autowired
 	private UsersService usersService;
-	
-	public void setUsersService(UsersService usersService) {
-		this.usersService = usersService;
-	}
 
 	@RequestMapping("/register")
 	public ModelAndView register(HttpSession session)

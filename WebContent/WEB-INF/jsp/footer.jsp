@@ -22,7 +22,7 @@
 <div class="container-fluid">
 	<div class="navbar navbar-footer">
 		<div class="footer">
-			&copy;2018 yourdreamjob.com. All rights reserved. Developed by Ashish Kumar
+			&copy;2019 yourdreamjob.com. All rights reserved. Developed by Ashish Kumar
 		</div>
 	</div>
 </div>

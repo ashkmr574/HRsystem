@@ -1,14 +1,5 @@
 package com.ashish.daoImpl;
 
-import com.ashish.dao.*;
-import com.ashish.dto.AppliedJobs;
-import com.ashish.dto.EducationalDetails;
-import com.ashish.dto.Employer;
-import com.ashish.dto.JobDetails;
-import com.ashish.dto.PersonalDetails;
-import com.ashish.dto.ProfessionalDetails;
-import com.ashish.dto.Users;
-
 import java.util.List;
 
 import org.hibernate.Query;
@@ -18,16 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.ashish.dao.UsersDao;
+import com.ashish.dto.AppliedJobs;
+import com.ashish.dto.EducationalDetails;
+import com.ashish.dto.Employer;
+import com.ashish.dto.JobDetails;
+import com.ashish.dto.PersonalDetails;
+import com.ashish.dto.ProfessionalDetails;
+import com.ashish.dto.Users;
+
 @Repository
 @Transactional
 public class UsersDaoImpl implements UsersDao
 {
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
 
 	@Override
 	public String getPassword(String username,String usertype)

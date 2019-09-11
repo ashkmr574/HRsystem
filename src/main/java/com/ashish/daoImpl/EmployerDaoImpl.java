@@ -26,12 +26,6 @@ public class EmployerDaoImpl implements EmployerDao
 {
 	@Autowired
 	private SessionFactory sessionFactory;
-
-	
-	public void setSessionFactory(SessionFactory sessionFactory) 
-	{
-		this.sessionFactory = sessionFactory;
-	}
 	
 	@Override
 	public String getCompanyName(String username)
@@ -185,8 +179,7 @@ public class EmployerDaoImpl implements EmployerDao
 	public int unblock(BlockCandidate candidate)
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		int res=session.createQuery("delete from BlockCandidate where applicant_username=:applicant_username and company_username=:company_username").setParameter("applicant_username",candidate.getBlockid().getApplicant_username()).setParameter("company_username",candidate.getBlockid().getCompany_username()).executeUpdate();
-		return res;
+		return session.createQuery("delete from BlockCandidate where applicant_username=:applicant_username and company_username=:company_username").setParameter("applicant_username",candidate.getBlockid().getApplicant_username()).setParameter("company_username",candidate.getBlockid().getCompany_username()).executeUpdate();
 	}
 	
 	@Override

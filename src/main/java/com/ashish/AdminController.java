@@ -23,14 +23,8 @@ import com.ashish.service.AdminService;
 @Controller
 public class AdminController
 {
-	
+	@Autowired
 	private AdminService adminService;
-	
-	@Autowired(required=true)
-	public void setAdminService(AdminService adminService) 
-	{
-		this.adminService = adminService;
-	}
 
 	@RequestMapping("/administrator")
 	public ModelAndView admin(HttpSession session)
