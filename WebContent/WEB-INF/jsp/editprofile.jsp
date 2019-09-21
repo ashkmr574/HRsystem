@@ -39,7 +39,7 @@ function removespace()
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
         	 <li><a href="profile">Profile</a></li>
-          <% if(session.getAttribute("type").toString().equals("employer")){ %>
+          <% if(session.getAttribute("roleId").toString().equals("3")){ %>
 			<li><a href='post_jobs' >Post Jobs</a></li>
 			<li><a href='candidate_management'>Manage Candidates</a></li>
 		<%} else{%>
@@ -60,7 +60,7 @@ function removespace()
 </div>
 <div class="container">
 	<c:choose>
-		<c:when test="${type=='jobseeker'}">
+		<c:when test="${roleId==2}">
 		<form method='post' action='submiteditedprofile' class="form-horizontal">
 		<div class="panel panel-info job-info">
 		<div class="panel-body job-post">

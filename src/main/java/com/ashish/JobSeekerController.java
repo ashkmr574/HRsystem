@@ -133,7 +133,7 @@ public class JobSeekerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("jobseeker"))
+		if(!session.getAttribute("roleId").toString().equals("2"))
 			return new ModelAndView("redirect:/");
 		if(result.hasErrors())
 		{
@@ -156,7 +156,7 @@ public class JobSeekerController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("jobseeker"))
+		if(!session.getAttribute("roleId").toString().equals("2"))
 			return "unauthorized";
 		
 		List<JobDetails> jb_detail=this.jobSeekerService.getJobsList(session.getAttribute("name").toString());
@@ -170,7 +170,7 @@ public class JobSeekerController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("jobseeker"))
+		if(!session.getAttribute("roleId").toString().equals("2"))
 			return "unauthorized";
 		
 		String criteria=req.getParameter("criteria");
@@ -193,7 +193,7 @@ public class JobSeekerController
 		int id = (int) model.asMap().get("id");
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("jobseeker"))
+		if(!session.getAttribute("roleId").toString().equals("2"))
 			return "unauthorized";
 		boolean isblocked=this.jobSeekerService.isBlocked(session.getAttribute("name").toString(),this.jobSeekerService.getCompanyUserName(id) );
 		if(!isblocked)
@@ -223,7 +223,7 @@ public class JobSeekerController
 		
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("jobseeker"))
+		if(!session.getAttribute("roleId").toString().equals("2"))
 			return "redirect:/";
 		if(result.hasErrors())
 		{
@@ -239,7 +239,7 @@ public class JobSeekerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("jobseeker"))
+		if(!session.getAttribute("roleId").toString().equals("2"))
 			return new ModelAndView("unauthorized");
 		this.jobSeekerService.withdraw(id,session.getAttribute("name").toString());
 		redirectAttributes.addFlashAttribute("withdraw","withdrawn");

@@ -26,11 +26,11 @@ public class UsersDaoImpl implements UsersDao
 	private SessionFactory sessionFactory;
 
 	@Override
-	public String getPassword(String username,String usertype)
+	public Users getPassword(String username)
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		String password=(String)session.createQuery("select password from Users where username=:username and usertype=:usertype").setParameter("username",username).setParameter("usertype",usertype).uniqueResult();
-		return password;
+		Users user=(Users)session.createQuery("from Users where username=:username").setParameter("username",username).uniqueResult();
+		return user;
 	}
 
 	@Override

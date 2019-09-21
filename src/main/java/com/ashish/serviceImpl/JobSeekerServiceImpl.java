@@ -46,7 +46,7 @@ public class JobSeekerServiceImpl implements JobSeekerService
 		{
 			String hashed = BCrypt.hashpw(js.getUsers().getPassword(), BCrypt.gensalt());
 			js.getUsers().setPassword(hashed);
-			js.getUsers().setUsertype("jobseeker");
+			js.getUsers().setRoleId(2);
 			String username=js.getUsers().getUsername();
 			js.getPersonaldetails().setUsername(username);
 			js.getProfessionaldetails().setUsername(username);
@@ -89,7 +89,7 @@ public class JobSeekerServiceImpl implements JobSeekerService
 		js.getProfessionaldetails().setUsername(username);
 		Users users=new Users();
 		users.setUsername(username);
-		users.setUsertype("jobseeker");
+		users.setRoleId(2);
 		String password=this.jobSeekerDao.getPassword(username);
 		users.setPassword(password);
 		for(EducationalDetails eds:js.getEducationaldetails())

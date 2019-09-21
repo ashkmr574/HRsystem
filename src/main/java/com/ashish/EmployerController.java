@@ -121,7 +121,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("redirect:/");
 		if(result.hasErrors())
 		{
@@ -138,7 +138,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("unauthorized");
 		return new ModelAndView("post_jobs");
 	}
@@ -148,7 +148,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("unauthorized");
 		if(result.hasErrors())
 		{
@@ -171,7 +171,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")!=null)
 		{
-			if(session.getAttribute("type").toString().equals("employer"))
+			if(session.getAttribute("roleId").toString().equals("3"))
 			{
 				List<AppliedJobs> jobs=this.employerService.getAppliedJobs(session.getAttribute("name").toString());
 				List<BlockCandidate> candidate=this.employerService.getBlockedCandidate(session.getAttribute("name").toString());
@@ -191,7 +191,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return "unauthorized";
 		boolean status=this.employerService.lock(id,name,session.getAttribute("name").toString());
 		if(status)
@@ -205,7 +205,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return "unauthorized";
 		boolean status=this.employerService.block(name,session.getAttribute("name").toString());
 		if(status)
@@ -219,7 +219,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("unauthorized");
 		redirectAttributes.addFlashAttribute("id",id);
 		return new ModelAndView("redirect:/editjob");
@@ -230,7 +230,7 @@ public class EmployerController
 
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("unauthorized");
 		jb.setUsername(session.getAttribute("name").toString());
 		jb.setCompany_name(this.employerService.getCompanyName(jb.getUsername()));
@@ -244,7 +244,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("redirect:/");
 		if(model.asMap().size()==0)
 			return new ModelAndView("redirect:/");
@@ -258,7 +258,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return "unauthorized";
 		if(name.equals(""))
 			return "404error";
@@ -274,7 +274,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return "redirect:/";
 		JobId jobid=new JobId();
 		jobid.setApplicant_username(name);
@@ -293,7 +293,7 @@ public class EmployerController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").toString().equals("employer"))
+		if(!session.getAttribute("roleId").toString().equals("3"))
 			return new ModelAndView("redirect:/");
 		this.employerService.delete(id,session.getAttribute("name").toString());
 		redirectAttributes.addFlashAttribute("delete","success");

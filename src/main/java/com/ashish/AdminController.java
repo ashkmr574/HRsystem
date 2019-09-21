@@ -32,7 +32,7 @@ public class AdminController
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("admin_login");
 		
-		if(!session.getAttribute("type").toString().equals("admin"))
+		if(!session.getAttribute("roleId").toString().equals("1"))
 			return new ModelAndView("redirect:/");
 
 		return new ModelAndView("redirect:/adminhome");
@@ -73,7 +73,7 @@ public class AdminController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").equals("admin"))
+		if(!session.getAttribute("roleId").toString().equals("1"))
 			return "redirect:/";
 		return "change_password";
 	}
@@ -83,7 +83,7 @@ public class AdminController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").equals("admin"))
+		if(!session.getAttribute("roleId").toString().equals("1"))
 			return new ModelAndView("redirect:/");
 		String password_new=req.getParameter("password_new");
 		String password=req.getParameter("password");
@@ -108,10 +108,10 @@ public class AdminController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/administrator");
-		if(!session.getAttribute("type").toString().equals("admin"))
+		if(!session.getAttribute("roleId").toString().equals("1"))
 			return new ModelAndView("redirect:/");
-		if(session.getAttribute("firstlogin").toString().equals("true"))
-			return new ModelAndView("redirect:/change_adminpassword");
+		//if(session.getAttribute("firstlogin").toString().equals("true"))
+			//return new ModelAndView("redirect:/change_adminpassword");
 		ModelAndView model=new ModelAndView("admin_panel");
 		model.addObject("employer_count",this.adminService.getEmployerCount());
 		model.addObject("jobseeker_count",this.adminService.getJobSeekerCount());
@@ -128,7 +128,7 @@ public class AdminController
 	{
 		if(session.getAttribute("name")==null)
 			return "redirect:/";
-		if(!session.getAttribute("type").toString().equals("admin"))
+		if(!session.getAttribute("roleId").toString().equals("1"))
 			return "redirect:/";
 		return "add_admin";
 	}
@@ -138,13 +138,13 @@ public class AdminController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(!session.getAttribute("type").equals("admin"))
+		if(!session.getAttribute("roleId").equals("1"))
 			return new ModelAndView("redirect:/");
 		if(model==null)
 			return new ModelAndView("redirect:/add_admin");
 		if(result.hasErrors())
 		{
-			Map<String,String> map=new HashMap<String,String>();
+			Map<String,String> map=new HashMap<>();
 			for(FieldError s:result.getFieldErrors())
 			{
 					map.put(s.getField(),s.getDefaultMessage());

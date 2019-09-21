@@ -5,7 +5,7 @@ import java.util.List;
 import com.ashish.dto.*;
 public interface UsersDao
 {
-	public String getPassword(String username,String usertype);
+	public Users getPassword(String username);
 	public Boolean changePassword(String username,String password);
 	public List<AppliedJobs> getApliedJobs(String username);
 	public List<JobDetails> getPostedJobs(String username) ;

@@ -57,7 +57,7 @@ $(document).ready(function(){
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
         	 <li><a href="profile">Profile</a></li>
-          <% if(session.getAttribute("type").toString().equals("employer")){ %>
+          <% if(session.getAttribute("roleId").toString().equals("3")){ %>
 			<li><a href='post_jobs' >Post Jobs</a></li>
 			<li><a href='candidate_management'>Manage Candidates</a></li>
 		<%} else{%>

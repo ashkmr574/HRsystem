@@ -48,17 +48,13 @@ public class CommonController
 			return new ModelAndView("redirect:/");
 		String user=req.getParameter("user");
 		String password=req.getParameter("pass");
-		String type=req.getParameter("type");
-		if(user==null || password==null || type==null || user.trim().equals("") || password.trim().equals(""))
+		if(user==null || password==null || user.trim().equals("") || password.trim().equals(""))
 			return new ModelAndView("index","message","Invalid Username or Password");
-		Boolean status=this.usersService.login(user, password,type);
-		if(status)
+		Integer roleId=this.usersService.login(user, password);
+		if(roleId!=null)
 		{
 			session.setAttribute("name", user);
-			if(type.equals("jobseeker"))
-				session.setAttribute("type","jobseeker");
-			else
-				session.setAttribute("type","employer");
+			session.setAttribute("roleId",roleId);
 			return new ModelAndView("redirect:/home");
 		}
 		else
@@ -73,7 +69,7 @@ public class CommonController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(session.getAttribute("type").equals("admin"))
+		if(session.getAttribute("roleId").equals("1"))
 			return new ModelAndView("redirect:/administrator");
 		return new ModelAndView("passwordchange");
 	}
@@ -83,7 +79,7 @@ public class CommonController
 	{
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
-		if(session.getAttribute("type").toString().equals("admin"))
+		if(session.getAttribute("roleId").toString().equals("1"))
 			return new ModelAndView("redirect:/");
 		String password_new=req.getParameter("password_new");
 		String password=req.getParameter("password");
@@ -92,7 +88,7 @@ public class CommonController
 			return new ModelAndView("passwordchange","msg","Either Username or password is incorrect");
 		if(password_new.equals(password))
 			return new ModelAndView("passwordchange","msg","New Password cannot be same as old one");
-		boolean status=this.usersService.changePassword(user, password, password_new,session.getAttribute("type").toString());
+		boolean status=this.usersService.changePassword(user, password, password_new);
 		if(status)
 		{
 			session.invalidate();
@@ -105,15 +101,12 @@ public class CommonController
 	@RequestMapping("/home")
 	public ModelAndView homepage(HttpSession session)
 	{
-		if(session.getAttribute("name")==null)
-			return new ModelAndView("redirect:/");
-		
-		if(session.getAttribute("type").toString().equals("jobseeker"))
+		if(session.getAttribute("roleId").toString().equals("2"))
 		{
 			List<AppliedJobs> jb_detail=this.usersService.getAppliedJobs(session.getAttribute("name").toString());
 			return new ModelAndView("welcomepage","jobs",jb_detail);
 		}
-		else if(session.getAttribute("type").toString().equals("employer"))
+		else if(session.getAttribute("roleId").toString().equals("3"))
 		{
 			List<JobDetails> jb_detail=this.usersService.getPostedJobs(session.getAttribute("name").toString());
 			return new ModelAndView("welcomepage","jb_detail",jb_detail);
@@ -139,11 +132,11 @@ public class CommonController
 		String data=req.getParameter("user");
 		if(data==null || data.trim().equals(""))
 			return new ModelAndView("forget_password","reply","Field cannot be empty");
-		String type=this.usersService.isUserExists(data);
+		Integer type=this.usersService.isUserExists(data);
 		if(type!=null)
 		{
 			session.setAttribute("username", data);
-			if(type.equals("jobseeker"))
+			if(type==2)
 			{
 				return new ModelAndView("recover_password","type","jobseeker");
 			}
@@ -186,7 +179,7 @@ public class CommonController
 		if(model.asMap().size()>0)
 			msg = (String) model.asMap().get("msg");
 		
-		if(session.getAttribute("type").toString().equals("jobseeker"))
+		if(session.getAttribute("roleId").toString().equals("2"))
 		{
 			JobSeekerDetails jbs=this.usersService.getProfile(session.getAttribute("name").toString());
 			ModelAndView view= new ModelAndView("profile","jobsekkerdetails",jbs);
@@ -194,7 +187,7 @@ public class CommonController
 				view.addObject("msg",msg);
 			return view;
 		}
-		else if(session.getAttribute("type").toString().equals("employer"))
+		else if(session.getAttribute("roleId").toString().equals("3"))
 		{
 			Employer emp=this.usersService.getProfile(session.getAttribute("name").toString(),true);
 			ModelAndView view= new ModelAndView("profile","empdetails",emp);
@@ -213,12 +206,12 @@ public class CommonController
 		if(session.getAttribute("name")==null)
 			return new ModelAndView("redirect:/");
 		
-		if(session.getAttribute("type").toString().equals("jobseeker"))
+		if(session.getAttribute("roleId").toString().equals("2"))
 		{
 			JobSeekerDetails jbs=this.usersService.getProfile(session.getAttribute("name").toString());
 			return new ModelAndView("editprofile","jobsekkerdetails",jbs);
 		}
-		else if(session.getAttribute("type").toString().equals("employer"))
+		else if(session.getAttribute("roleId").toString().equals("3"))
 		{
 			Employer emp=this.usersService.getProfile(session.getAttribute("name").toString(),true);
 			return new ModelAndView("editprofile","empdetails",emp);

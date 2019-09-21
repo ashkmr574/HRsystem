@@ -16,7 +16,7 @@ public class StartController
 		if(session.getAttribute("name")==null)
 			return "index";
 		
-		if(session.getAttribute("type").toString().equals("admin"))
+		if(session.getAttribute("roleId").toString().equals("1"))
 				return "redirect:/administrator";
 		else
 				return "redirect:/home";

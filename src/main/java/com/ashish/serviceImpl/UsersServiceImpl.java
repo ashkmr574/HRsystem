@@ -22,24 +22,24 @@ public class UsersServiceImpl implements UsersService
 	private UsersDao usersDao;
 
 	@Override
-	public Boolean login(String username, String password,String usertype) 
+	public Integer login(String username, String password) 
 	{
-		String actual_password=this.usersDao.getPassword(username,usertype);
-		if(actual_password==null)
-			return false;
-		if (BCrypt.checkpw(password,actual_password))
-			return true;
+		Users usr=this.usersDao.getPassword(username);
+		if(usr==null)
+			return -1;
+		if (BCrypt.checkpw(password,usr.getPassword()))
+			return usr.getRoleId();
 		else
-			return false;
+			return -1;
 	}
 	
 	@Override
-	public Boolean changePassword(String username, String current_password,String password,String usertype) 
+	public Boolean changePassword(String username, String current_password,String password) 
 	{
-		String actual_password=this.usersDao.getPassword(username,usertype);
-		if(actual_password==null)
+		Users usr=this.usersDao.getPassword(username);
+		if(usr==null)
 			return false;
-		if (BCrypt.checkpw(current_password,actual_password))
+		if (BCrypt.checkpw(current_password,usr.getPassword()))
 		{
 			String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 			return this.usersDao.changePassword(username,hashed);
@@ -67,13 +67,13 @@ public class UsersServiceImpl implements UsersService
 	}
 
 	@Override
-	public String isUserExists(String username) 
+	public Integer isUserExists(String username) 
 	{
 		Users user=this.usersDao.isUserExists(username);
 		if(user==null)
 			return null;
 		else
-			return user.getUsertype();
+			return user.getRoleId();
 	}
 
 	@Override

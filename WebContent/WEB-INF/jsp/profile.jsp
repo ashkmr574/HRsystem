@@ -27,7 +27,7 @@
         <span class="caret"></span></a>
         <ul class="dropdown-menu">
         <li><a href="#">Profile</a></li>
-          <% if(session.getAttribute("type").toString().equals("employer")){ %>
+          <% if(session.getAttribute("roleId").toString().equals("3")){ %>
 			<li><a href='post_jobs' >Post Jobs</a></li>
 			<li><a href='candidate_management'>Manage Candidates</a></li>
 		<%} else{%>
@@ -55,7 +55,7 @@
 <div class="container">
 <a href='editprofile' class="btn btn-success">Edit Profile</a>
 <c:choose>
-<c:when test="${type=='jobseeker' }">
+<c:when test="${roleId==2 }">
 <div class="panel panel-info job-info">
 <div class="panel-body job-post">
 <div class="table-responsive">

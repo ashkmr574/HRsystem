@@ -26,7 +26,7 @@ public class Users
 	@Pattern(message="Password is not in the requested format",regexp="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$" )
 	private String password;
 	
-	private String usertype;
+	private Integer roleId;
 	
 	@OneToMany(cascade=CascadeType.ALL)
 	@JoinTable(name="users_education",joinColumns= { @JoinColumn(name="username")},inverseJoinColumns= {@JoinColumn(name="row_no")}
@@ -51,10 +51,11 @@ public class Users
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getUsertype() {
-		return usertype;
+	public Integer getRoleId() {
+		return roleId;
 	}
-	public void setUsertype(String usertype) {
-		this.usertype = usertype;
+	public void setRoleId(Integer roleId) {
+		this.roleId = roleId;
 	}
+	
 }

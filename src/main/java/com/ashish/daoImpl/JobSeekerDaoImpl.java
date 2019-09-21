@@ -37,7 +37,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao
 	public String getPassword(String Username)
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		String password=(String)session.createQuery("select password from Users where username=:username and usertype='jobseeker'").setParameter("username",Username).uniqueResult();
+		String password=(String)session.createQuery("select password from Users where username=:username").setParameter("username",Username).uniqueResult();
 		return password;
 	}
 

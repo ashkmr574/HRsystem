@@ -40,7 +40,7 @@ public class EmployerServiceImpl implements EmployerService
 		boolean status=this.employerDao.isuserexists(emp.getUsers().getUsername());
 		if(!status)
 		{
-			emp.getUsers().setUsertype("employer");
+			emp.getUsers().setRoleId(3);
 			emp.getEmployer().setUsername(emp.getUsers().getUsername());
 			Date date=new Date();
 			DateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
