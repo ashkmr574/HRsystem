@@ -3,14 +3,13 @@ package com.ashish;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class StartController
 {
 
-	@RequestMapping("/")
+	@GetMapping("/")
 	public String start(HttpSession session)
 	{
 		if(session.getAttribute("name")==null)
@@ -23,7 +22,7 @@ public class StartController
 		
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@GetMapping
 	public String defaultMethod()
 	{
 		return "404error";

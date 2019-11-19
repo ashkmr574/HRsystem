@@ -1,4 +1,4 @@
-package com.ashish.daoImpl;
+package com.ashish.dao.impl;
 
 import java.util.List;
 
@@ -71,9 +71,7 @@ public class AdminDaoImpl implements AdminDao
 	{
 		Session session=this.sessionFactory.getCurrentSession();
 		Admin admin=(Admin)session.createQuery("from Admin where username=:username").setParameter("username",username).uniqueResult();
-		if(admin==null)
-			return false;
-		return true;
+		return admin == null ? false : true;
 	}
 	
 	@Override
@@ -106,31 +104,27 @@ public class AdminDaoImpl implements AdminDao
 		return (long)session.createQuery("select count(*) from AppliedJobs").uniqueResult();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<Employer> getEmployers() 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<Employer> emp=session.createQuery("from Employer").list();
-		return emp;
+		return session.createQuery("from Employer").list();
 	}
 	
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<PersonalDetails> getJobSeekers() 
 	{
 		Session session= this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<PersonalDetails> ps_detail=session.createQuery("from PersonalDetails").list();
-		return ps_detail;
+		return session.createQuery("from PersonalDetails").list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getJobs(boolean status) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<JobDetails> jb_detail=session.createQuery("from JobDetails").list();
-		return jb_detail;
+		return session.createQuery("from JobDetails").list();
 	}
 }

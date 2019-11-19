@@ -1,8 +1,7 @@
-package com.ashish.daoImpl;
+package com.ashish.dao.impl;
 
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,18 +28,17 @@ public class UsersDaoImpl implements UsersDao
 	public Users getPassword(String username)
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Users user=(Users)session.createQuery("from Users where username=:username").setParameter("username",username).uniqueResult();
-		return user;
+		return (Users)session.createQuery("from Users where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 	@Override
 	public Boolean changePassword(String username, String password) 
 	{
 		Session session= this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("update Users set password=:password where username=:username");
-		query.setString("password",password);
-		query.setString("username",username);
-		query.executeUpdate();
+		session.createQuery("update Users set password=:password where username=:username")
+		                .setParameter("password",password)
+		                .setParameter("username",username)
+		                .executeUpdate();
 		return true;
 	}
 
@@ -52,29 +50,26 @@ public class UsersDaoImpl implements UsersDao
 		return session.createQuery("from AppliedJobs where applicant_username=:username").setParameter("username",username).list();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getPostedJobs(String username) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<JobDetails> jb_detail=session.createQuery("from JobDetails where username=:username").setParameter("username",username).list();
-		return jb_detail;
+		return session.createQuery("from JobDetails where username=:username").setParameter("username",username).list();
 	}
 
 	@Override
 	public Users isUserExists(String username) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Users user=(Users)session.createQuery("from Users where username=:username").setParameter("username",username).uniqueResult();
-		return user;
+		return (Users)session.createQuery("from Users where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 	@Override
 	public PersonalDetails getPersonalDetails(String username)
 	{
 		Session session= this.sessionFactory.getCurrentSession();
-		PersonalDetails ps=(PersonalDetails)session.createQuery("from PersonalDetails where username=:username").setParameter("username",username).uniqueResult();
-		return ps;
+		return (PersonalDetails)session.createQuery("from PersonalDetails where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 
@@ -90,16 +85,14 @@ public class UsersDaoImpl implements UsersDao
 	@Override
 	public ProfessionalDetails getProfessionalDetails(String username) {
 		Session session= this.sessionFactory.getCurrentSession();
-		ProfessionalDetails pfs=(ProfessionalDetails)session.createQuery("from ProfessionalDetails where username=:username").setParameter("username",username).uniqueResult();
-		return pfs;
+		return (ProfessionalDetails)session.createQuery("from ProfessionalDetails where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 	@Override
 	public Employer getEmployerProfile(String username) 
 	{
 		Session session= this.sessionFactory.getCurrentSession();
-		Employer emp=(Employer)session.createQuery("from Employer where username=:username").setParameter("username",username).uniqueResult();
-		return emp;
+		return (Employer)session.createQuery("from Employer where username=:username").setParameter("username",username).uniqueResult();
 	}
 
 	

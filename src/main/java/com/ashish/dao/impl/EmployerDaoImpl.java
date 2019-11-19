@@ -1,9 +1,8 @@
-package com.ashish.daoImpl;
+package com.ashish.dao.impl;
 
 import java.util.Date;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +72,7 @@ public class EmployerDaoImpl implements EmployerDao
 	public boolean validate(String email, Date date, String username) 
 	{
 		Session session= this.sessionFactory.getCurrentSession();
-		Employer emp=(Employer)session.createQuery("from Employer where email=:email and reg_date=:reg_date and username=:username" ).setParameter("email",email).setDate("reg_date",date).setParameter("username",username).uniqueResult();
+		Employer emp=(Employer)session.createQuery("from Employer where email=:email and reg_date=:reg_date and username=:username" ).setParameter("email",email).setParameter("reg_date",date).setParameter("username",username).uniqueResult();
 		if(emp==null)
 			return false;
 		return true;
@@ -124,23 +123,22 @@ public class EmployerDaoImpl implements EmployerDao
 	public boolean changeStatus(LockCandidate candidate,String status) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("update AppliedJobs set status=:status where job_id=:job_id and applicant_username=:applicant_username");
-		query.setString("applicant_username",candidate.getJobid().getApplicant_username());
-		query.setParameter("job_id",candidate.getJobid().getJob_id());
-		query.setString("status",status);
-		query.executeUpdate();
+		session.createQuery("update AppliedJobs set status=:status where job_id=:job_id and applicant_username=:applicant_username")
+		                      .setParameter("applicant_username",candidate.getJobid().getApplicant_username())
+		                      .setParameter("job_id",candidate.getJobid().getJob_id())
+		                      .setParameter("status",status)
+		                      .executeUpdate();
 		return true;
 		
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<AppliedJobs> isJobDetailsValid(String applicant_username, String company_username) 
 	{
 
 		Session session=this.sessionFactory.getCurrentSession();
-		@SuppressWarnings("unchecked")
-		List<AppliedJobs> jb_detail=(List<AppliedJobs>)session.createQuery("from AppliedJobs where applicant_username=:applicant_username and company_username=:company_username").setParameter("applicant_username",applicant_username).setParameter("company_username",company_username).list();
-		return jb_detail;
+		return (List<AppliedJobs>)session.createQuery("from AppliedJobs where applicant_username=:applicant_username and company_username=:company_username").setParameter("applicant_username",applicant_username).setParameter("company_username",company_username).list();
 	}
 	
 	@Override
@@ -162,10 +160,7 @@ public class EmployerDaoImpl implements EmployerDao
 	public JobDetails getJob(int id)
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from JobDetails where id=:id");
-		query.setParameter("id", id);
-		JobDetails jb_detail=(JobDetails)query.uniqueResult();
-		return jb_detail;
+		return (JobDetails) session.createQuery("from JobDetails where id=:id").setParameter("id",id).uniqueResult();
 	}
 	
 	@Override

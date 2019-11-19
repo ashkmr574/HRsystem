@@ -1,4 +1,4 @@
-package com.ashish.daoImpl;
+package com.ashish.dao.impl;
 
 import com.ashish.dao.JobSeekerDao;
 import com.ashish.dto.AppliedJobs;
@@ -18,10 +18,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.StringTokenizer;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-//import org.hibernate.transform.AliasToBeanResultTransformer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -46,9 +44,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao
 	{
 		Session session= this.sessionFactory.getCurrentSession();
 		String hql="select name from PersonalDetails where username= '"+username+"'";
-		Query query=session.createQuery(hql);
-		String name=(String)query.uniqueResult();
-		return name;
+		return (String)session.createQuery(hql).uniqueResult();
 	}
 
 	@Override
@@ -66,9 +62,7 @@ public class JobSeekerDaoImpl implements JobSeekerDao
 	{
 		Session session= this.sessionFactory.getCurrentSession();
 		String hql="select contact from PersonalDetails where username= '"+username+"'";
-		Query query=session.createQuery(hql);
-		String contact=(String)query.uniqueResult();
-		return contact;
+		return (String)session.createQuery(hql).uniqueResult();
 	}
 
 
@@ -160,62 +154,53 @@ public class JobSeekerDaoImpl implements JobSeekerDao
 	@Override
 	public boolean validate(String email, Date date,String username) {
 		Session session= this.sessionFactory.getCurrentSession();
-		PersonalDetails ps=(PersonalDetails)session.createQuery("from PersonalDetails where email=:email and dob=:dob and username=:username" ).setParameter("email",email).setDate("dob",date).setParameter("username",username).uniqueResult();
+		PersonalDetails ps=(PersonalDetails)session.createQuery("from PersonalDetails where email=:email and dob=:dob and username=:username" ).setParameter("email",email).setParameter("dob",date).setParameter("username",username).uniqueResult();
 		if(ps==null)
 			return false;
 		return true;
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getJobsList(Date date) 
 	{
 		Session session= this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from JobDetails where last_apply_date>=:date");
-		query.setDate("date",date);
-		@SuppressWarnings("unchecked")
-		List<JobDetails> jb_details=query.list();
-		return jb_details;
+		return session.createQuery("from JobDetails where last_apply_date>=:date").setParameter("date",date).list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobId> getJobIds(String username) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("select jobid from AppliedJobs where applicant_username=:username");
-		query.setParameter("username", username);
-		@SuppressWarnings("unchecked")
-		List<JobId> jb_detail=query.list();
-		return jb_detail;
+		return session.createQuery("select jobid from AppliedJobs where applicant_username=:username")
+		                    .setParameter("username", username).list();
 		
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getJobsList(List<Integer> jobids,Date date) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from JobDetails as jb where jb.job_id not in (:jobids) and last_apply_date>=:date");
-		query.setParameterList("jobids",jobids);
-		query.setDate("date",date);
-		@SuppressWarnings("unchecked")
-		List<JobDetails> jb_detail=query.list();
-		return jb_detail;
+		return session.createQuery("from JobDetails as jb where jb.job_id not in (:jobids) and last_apply_date>=:date")
+		     .setParameterList("jobids",jobids)
+		     .setParameter("date",date).list();
 	}
 	
-
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getJobsListByLocation(String text,Date date) 
 	{
 		
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from JobDetails where job_location like '%"+text+"%' and last_apply_date>=:date");
-		query.setDate("date",date);
-		@SuppressWarnings("unchecked")
-		List<JobDetails> jb_details=query.list();
-		return jb_details;
+		return session.createQuery("from JobDetails where job_location like '%"+text+"%' and last_apply_date>=:date")
+		.setParameter("date",date).list();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getJobsListBySkills(String skills,Date date) 
 	{
@@ -226,44 +211,36 @@ public class JobSeekerDaoImpl implements JobSeekerDao
 		{
 			while(str.hasMoreTokens())
 			{
-				Query query=session.createQuery("from JobDetails where req_skills like '%"+str.nextToken()+"%' and last_apply_date>=:date");
-				query.setDate("date",date);
-				@SuppressWarnings("unchecked")
-				List<JobDetails> jb_details=query.list();
+				List<JobDetails> jb_details=session.createQuery("from JobDetails where req_skills like '%"+str.nextToken()+"%' and last_apply_date>=:date")
+				.setParameter("date",date).list();
 				total_list.addAll(jb_details);
 			}
 		}
-		return new ArrayList<JobDetails>(total_list);
+		return new ArrayList<>(total_list);
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<JobDetails> getJobsListByCompany(String company,Date date) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from JobDetails where company_name like '%"+company+"%' or company_username like '%"+company+"%' and last_apply_date>=:date");
-		query.setDate("date",date);
-		@SuppressWarnings("unchecked")
-		List<JobDetails> jb_details=query.list();
-		return jb_details;
+		return session.createQuery("from JobDetails where company_name like '%"+company+"%' or company_username like '%"+company+"%' and last_apply_date>=:date")
+		                                    .setParameter("date",date).list();
 	}
 	
 	@Override
 	public JobDetails getJob(int id)
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		Query query=session.createQuery("from JobDetails where id=:id");
-		query.setParameter("id", id);
-		JobDetails jb_detail=(JobDetails)query.uniqueResult();
-		return jb_detail;
+		return (JobDetails)session.createQuery("from JobDetails where id=:id").setParameter("id", id).uniqueResult();
 	}
 	
 	@Override
 	public BlockCandidate isBlocked(String applicant_username, String company_username) 
 	{
 		Session session=this.sessionFactory.getCurrentSession();
-		BlockCandidate candidate=(BlockCandidate)session.createQuery("from BlockCandidate where company_username=:company_username and applicant_username=:applicant_username").setParameter("applicant_username", applicant_username).setParameter("company_username", company_username).uniqueResult();
-		return candidate;
+	    return (BlockCandidate)session.createQuery("from BlockCandidate where company_username=:company_username and applicant_username=:applicant_username").setParameter("applicant_username", applicant_username).setParameter("company_username", company_username).uniqueResult();
 	}
 	
 	@Override
